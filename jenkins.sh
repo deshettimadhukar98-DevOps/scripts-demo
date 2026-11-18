@@ -1,50 +1,34 @@
 pipeline {
     agent any
 
-    environment {
-        APP_NAME = 'demo-service'
-        DEPLOY_ENV = 'staging'
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                echo "Fetching source code for ${env.APP_NAME}..."
-                // Uncomment the line below to pull from a real Git repo:
-                // git branch: 'main', url: 'https://github.com'
+                echo 'Fetching source code...'
             }
         }
-
         stage('Build') {
             steps {
-                echo 'Compiling application...'
-                sh 'echo "Build successful" > artifact.txt'
+                echo 'Compiling and packaging the application...'
+                sh 'sleep 2'
             }
         }
-
         stage('Test') {
             steps {
-                echo 'Running automated tests...'
-                sh 'cat artifact.txt'
+                echo 'Running automated unit tests...'
+                sh 'echo "All tests passed!"'
             }
         }
-
         stage('Deploy') {
             steps {
-                echo "Deploying ${env.APP_NAME} to ${env.DEPLOY_ENV}..."
+                echo 'Deploying application to staging server...'
             }
         }
     }
-
     post {
         success {
-            echo 'Pipeline finished successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Check console logs for details.'
-        }
-        always {
-            cleanWs() // Cleans up the workspace after the run
+            echo 'Demo pipeline completed successfully!'
         }
     }
 }
+
